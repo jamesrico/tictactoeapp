@@ -4,7 +4,7 @@ html(lang='en-US')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Chatitude
+    title TicTacToe
     link(rel='stylesheet', href='css/main.css')
   body
       <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -25,17 +25,19 @@ html(lang='en-US')
           Create Game
       .chooseGameContainer
         h4 Choose A Game From List Below
-      .app
-        .tictactoecontainer
-          .topleftspace
-          .topmidspace
-          .toprightspace
-          .midleftspace
-          .midmidspace
-          .midrightspace
-          .botleftspace
-          .botmidspace
-          .botmidright
+        ul.gameListContainer
+
+    .app.hidden
+      .tictactoecontainer
+        .topleftspace.cell
+        .topmidspace.cell
+        .toprightspace.cell
+        .midleftspace.cell
+        .midmidspace.cell
+        .midrightspace.cell
+        .botleftspace.cell
+        .botmidspace.cell
+        .botmidright.cell
 
       // build:js js/vendor.min.js
       // bower:js

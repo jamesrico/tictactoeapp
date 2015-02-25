@@ -1,0 +1,16 @@
+
+
+.tictactoecontainer {
+  width: $tictactoecontainerWidth;
+  height: $tictactoecontainerHeight;
+  margin: 40px auto;
+  border: 3px black solid;
+}
+
+.cell {
+  width: $cellWidth;
+  height: $cellHeight;
+  border: $cellBorderWidth black solid;
+  display: inline-block;
+  margin: 0;
+}
