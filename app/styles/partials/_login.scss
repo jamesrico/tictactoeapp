@@ -1,0 +1,31 @@
+
+.login {
+	width: 800px;
+	text-align: center;
+	margin: 100px auto;
+	border-radius: 10px;
+	border: 4px solid black;
+
+	.username, .password, button {
+		margin: 40px;
+	}
+
+	button, .loginButton {
+		width: 100px;
+		height: 50px;
+		border-radius: 5px;
+		border: 2px solid black;
+		background-color: lightgrey;
+		margin-top: 20px;
+	}
+
+	button:hover {
+		background-color: steelblue;
+		color: white;
+	}
+
+	.loginButton:hover {
+		background-color: limegreen;
+		color: white;
+	}
+}

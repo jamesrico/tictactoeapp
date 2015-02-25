@@ -1,0 +1,27 @@
+.chatcontainer {
+	width: 800px;
+	border: 5px solid black;
+	border-radius: 10px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: steelblue;
+
+	.messagecontainer {
+
+		background-color: white;
+		border-radius: 10px;
+		border: 2px solid black;
+		padding: 5px 15px;
+		margin: 10px 0;
+		width: 80%;
+
+		&:nth-child(2n) {
+			background-color: black;
+			color: white;
+			border: 2px solid white;
+			margin-left: auto;
+			margin-right: 0;
+
+		}
+	}
+}

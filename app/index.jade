@@ -1,0 +1,33 @@
+doctype html
+html(lang='en-US')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Chatitude
+    link(rel='stylesheet', href='css/main.css')
+  body
+      <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    .login.hidden
+      h1 Please Login Or Register
+      form
+        .username
+          label Enter Username
+          input.userNameInput(type='text', name='username', placeholder='Username', required='required' )
+        .password
+          label Enter Password
+          input.userPasswordInput(type='password', name='password', placeholder='Password' required='required')
+        button.register Register
+        input.loginButton(type='submit', name='login', value='Login')
+    .gameSelect
+      .createGameContainer
+      .chooseGameContainer
+
+      // build:js js/vendor.min.js
+      // bower:js
+      // endbower
+      // endbuild
+
+      // build:js js/main.min.js
+      script(src="/scripts/index.js")
+      // endbuild
