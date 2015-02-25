@@ -90,13 +90,32 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
   //
   //grab the entire list of games
   function getExistingGames(){
-    fb.on('child_added', function (snap) {
-      var game = snap.val(),
-          gameuser = game.user1;
+    fbgames.on('child_added', function (snap) {
+      var game = snap.val();
+      addGameToList(game);
+
     });
   }
 
   getExistingGames();
+
+  function editGamePlayers(gamecontainer){
+  var gameowner = $(gamecontainer).find('li').text(),
+      numberPlayers = $(gamecontainer).find('p').text();
+  if (numberPlayers === '1/2'){
+    $(gamecontainer).find('p').text('2/2');
+    var query = fbgames.orderByChild("user1").equalTo(gameowner).limitToFirst(1);
+    console.log(query);
+    var refQuery = query.ref();
+    console.log(refQuery);
+  }
+  else {}
+  }
+    
+  $('.gameListContainer').on('click', 'li', function (event){
+    editGamePlayers(event.target);
+    console.log(event.target);
+  })
 
   function addGameToList(game){
     var $li = $('<li class="'+game.user1+'game">'+game.user1+'<p class="'+game.user1+'numberofplayers">1/2</li>');
