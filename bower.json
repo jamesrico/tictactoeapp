@@ -1,9 +1,10 @@
 {
-  "name": "firebase-chat-app",
+  "name": "tictactoeapp",
   "version": "0.0.0",
   "homepage": "https://github.com/jamesrico/tictactoeapp",
   "authors": [
-    "thedean11 <edean1010@gmail.com>"
+    "thedean11 <edean1010@gmail.com>",
+    "jamesrico <jamesrico089@gmail.com>"
   ],
   "license": "MIT",
   "ignore": [
