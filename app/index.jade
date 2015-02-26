@@ -19,7 +19,7 @@ html(lang='en-US')
           input.userPasswordInput(type='password', name='password', placeholder='Password' required='required')
         button.register Register
         input.loginButton(type='submit', name='login', value='Login')
-    .gameSelect
+    .gameSelect.hidden
       .createGameContainer
         button.addgamebutton.
           Create Game
@@ -27,7 +27,7 @@ html(lang='en-US')
         h4 Choose A Game From List Below
         ul.gameListContainer
 
-    .app.hidden
+    .app
       .tictactoecontainer
         .cell(data-cell='topleftcell')
         .cell(data-cell='topmidcell')
