@@ -79,11 +79,35 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
 //////// Room List Page Functions /////////
 ///////////////////////////////////////////
 
+var currentGame,userRaw,userIndex,userShort;
+
+if(fb.getAuth()){
+  userRaw = fb.getAuth().password.email;
+  userIndex = userRaw.indexOf('@');
+  userShort = userRaw.substr(0,userIndex);
+} else {}
+
   /////push game data to fb
   function createGame(user){
     var newGameData = {'user1': user, 'user2': '', 'gameboard': [0, 0, 0, 0, 0, 0, 0, 0, 0], 'gameover': false};
     fbgames.push(newGameData);
+    findGameId();
     return newGameData;
+  }
+
+  //find game id
+  function findGameId(){
+    fbgames.once('value', function(n){
+      var games = n.val(),
+          userRaw = fb.getAuth().password.email,
+          userIndex = userRaw.indexOf('@'),
+          userShort = userRaw.substr(0,userIndex);
+      _.forEach(games, function(n, key){
+        if(n.user1===userShort || n.user2 === userShort){
+          currentGame = key;
+        } else { return null}
+      });
+    });
   }
 
   //grab game when one is added
@@ -91,8 +115,6 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     var game = snap.val();
     addGameToList(game);
   });
-
-
 
   //append game data to ul
   function addGameToList(game){
@@ -143,21 +165,17 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     } else {}
   };
 
-  function updateGameboard (gameid){
-    var userRaw = fb.getAuth().password.email,
-        userIndex = userRaw.indexOf('@'),
-        userShort = userRaw.substr(0,userIndex);
-    var fbspecificgameUrl = 'https://tictactoenssc8.firebaseio.com/games/'+gameid+'/';
+  function updateGameboard (){
+    var fbspecificgameUrl = 'https://tictactoenssc8.firebaseio.com/games/'+findGameId()+'/';
     var fbspecificgame = new Firebase(fbspecificgameUrl);
-    console.log(fbspecificgame);
-    fbspecificgame.once('value', function(game){
-      if (userShort===game.val().user1 || userShort===game.val().user2){
+    // fbspecificgame.once('value', function(game){
+    //   if (userShort===game.val().user1 || userShort===game.val().user2){
         fbspecificgame.on('child_added', function (snap) {
           var gameboard = snap.val();
           appendGameboard(gameboard);
         });
-      } else {console.log(game.user1,game.user2,game.gameboard)}
-    });
+      // } else {}
+    // });
   }
 
   function appendGameboard(gameboard){
@@ -165,18 +183,20 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     for(i=0;i<gameboard.length-1;i++){
       var divs = $('.cell');
       var thisDiv = divs[i];
-      if($(gameboard[i]) === 1){
+      if(gameboard[i] === 1){
         appendSymbol(thisDiv, 'X')
-      } else if($(gameboard[i]) === 2){
+        console.log(thisDiv);
+        console.log($(thisDiv).find('p'));
+      } else if(gameboard[i] === 2){
         appendSymbol(thisDiv, 'Y')
-      } else {}
+      } else {console.log('no', gameboard[i])}
     }
   }
 
-
-
   $('.gameListContainer').on('click', 'li', function (event){
     editGamePlayers($(event.target).closest('li'));
+    findGameId();
+    console.log(currentGame);
   })
 
 
@@ -188,6 +208,13 @@ function appendSymbol(div, move){
   var $symbol = $('<p>'+move+'</p>');
   $(div).append($symbol);
 }
+
+fbgames.on('child_added', function (snap) {
+    if(findGameId() !== null){
+      var key = findGameId();
+      updateGameboard();
+    } else {console.log(findGameId())}
+});
 
   var lastsymbol = 'X';
 
@@ -202,15 +229,17 @@ function appendSymbol(div, move){
         var index = $containerchildren.index(m);
         gameOver(gameBoard, index);
       });
-      fbgames.once('value', function(n){
-        var games = n.val();
-        _.forEach(games, function(n, key){
-            var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
+      // fbgames.once('value', function(n){
+      //   var games = n.val();
+      //   _.forEach(games, function(n, key){
+      //       var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
+      //       fbFindGame.child('gameboard').set(createGameboardData());
+      //       updateGameboard();
+      //   });
+      // });
+      var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+findGameId()+'/')
             fbFindGame.child('gameboard').set(createGameboardData());
-            updateGameboard(key);
-        });
-      });
-
+            updateGameboard();
       if (lastsymbol === 'X'){
         lastsymbol = '0'
       }
