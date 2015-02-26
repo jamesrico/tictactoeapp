@@ -114,9 +114,7 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
       createGame(userShort);
       $('.gameSelect').toggleClass('hidden');
       $('.app').toggleClass('hidden');
-
     } else {alert("Game Already Exists");}
-    console.log($('.gameListContainer').find('.'+userShort+'game').length);
 })
 
   function editGamePlayers(gamecontainer){
