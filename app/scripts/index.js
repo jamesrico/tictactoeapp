@@ -177,7 +177,6 @@ function appendSymbol(div, move){
             var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
             console.log(createGameboardData());
             fbFindGame.child('gameboard').set(createGameboardData());
-          } else { alert('Invalid Game!')}
         });
       });
 
