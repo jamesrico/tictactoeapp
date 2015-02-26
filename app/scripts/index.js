@@ -166,9 +166,9 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
       var divs = $('.cell');
       var thisDiv = divs[i];
       if($(gameboard[i]) === 1){
-        $(thisDiv).append('X');
+        appendSymbol(thisDiv, 'X')
       } else if($(gameboard[i]) === 2){
-        $(thisDiv).append('O');
+        appendSymbol(thisDiv, 'Y')
       } else {}
     }
   }
