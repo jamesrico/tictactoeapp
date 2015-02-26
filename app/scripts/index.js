@@ -120,7 +120,6 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
       userIndex = userRaw.indexOf('@'),
       userShort = userRaw.substr(0,userIndex);
     if (numberPlayers === '1/2' && userShort !== gameowner){
-      $(gamecontainer).find('p').text('2/2');
       fbgames.once('value', function(n){
         var games = n.val();
         _.forEach(games, function(n, key){
@@ -135,6 +134,7 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
           } else { alert('Invalid Game!')}
         });
       });
+      $(gamecontainer).find('p').text('2/2')
     } else {}
   };
 
