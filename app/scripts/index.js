@@ -135,11 +135,10 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
               userShort = userRaw.substr(0,userIndex);
             var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
             fbFindGame.child('user2').set(userShort);
-            fbFindGame.child('gameboard').set(createGameboardData());
           } else { alert('Invalid Game!')}
         });
-      $(gamecontainer).find('p').text('2/2');
       });
+      $(gamecontainer).find('p').text('2/2')
     } else {}
   };
 
@@ -171,6 +170,15 @@ function appendSymbol(div, move){
         var index = $containerchildren.index(m);
         console.log(index);
         gameOver(gameBoard, index);
+      });
+      fbgames.once('value', function(n){
+        var games = n.val();
+        _.forEach(games, function(n, key){
+            var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
+            console.log(createGameboardData());
+            fbFindGame.child('gameboard').set(createGameboardData());
+          } else { alert('Invalid Game!')}
+        });
       });
 
       if (lastsymbol === 'X'){
