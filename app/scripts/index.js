@@ -98,7 +98,6 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
   function addGameToList(game){
     function num() {
       if(game.user2 !== ''){
-        console.log(game.user2)
         return 2
       } else {return 1}
     }
@@ -129,8 +128,6 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
       fbgames.once('value', function(n){
         var games = n.val();
         _.forEach(games, function(n, key){
-          console.log(gameowner);
-          console.log(n.user1);
           if(n.user1===gameowner){
             var userRaw = fb.getAuth().password.email,
               userIndex = userRaw.indexOf('@'),
@@ -150,20 +147,30 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     var userRaw = fb.getAuth().password.email,
         userIndex = userRaw.indexOf('@'),
         userShort = userRaw.substr(0,userIndex);
-    if (userShort===gameid.user1 || userShort===gameid.user2){
-      var fbspecificgame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+gameid+'/gameboard/')
-      fbspecificgame.on('child_added', function (snap) {
-        var gameboard = snap.val();
-        appendGameboard(gameboard);
-      });
-      appendGameboard(gameid.gameboard);
-    }
+    var fbspecificgameUrl = 'https://tictactoenssc8.firebaseio.com/games/'+gameid+'/';
+    var fbspecificgame = new Firebase(fbspecificgameUrl);
+    console.log(fbspecificgame);
+    fbspecificgame.once('value', function(game){
+      if (userShort===game.val().user1 || userShort===game.val().user2){
+        fbspecificgame.on('child_added', function (snap) {
+          var gameboard = snap.val();
+          appendGameboard(gameboard);
+        });
+      } else {console.log(game.user1,game.user2,game.gameboard)}
+    });
   }
 
   function appendGameboard(gameboard){
-    _.forEach(gameboard, function(n){
-      console.log(n);
-    })
+    var i;
+    for(i=0;i<gameboard.length-1;i++){
+      var divs = $('.cell');
+      var thisDiv = divs[i];
+      if($(gameboard[i]) === 1){
+        $(thisDiv).append('X');
+      } else if($(gameboard[i]) === 2){
+        $(thisDiv).append('O');
+      } else {}
+    }
   }
 
 
@@ -193,14 +200,12 @@ function appendSymbol(div, move){
       var $containerchildren = $('.tictactoecontainer').children();
       _.forEach($containerchildren, function(m){
         var index = $containerchildren.index(m);
-        console.log(index);
         gameOver(gameBoard, index);
       });
       fbgames.once('value', function(n){
         var games = n.val();
         _.forEach(games, function(n, key){
             var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
-            console.log(createGameboardData());
             fbFindGame.child('gameboard').set(createGameboardData());
             updateGameboard(key);
         });
@@ -261,7 +266,6 @@ function appendSymbol(div, move){
     } else if(($.inArray(0,board)) === -1 && $('.tictactoecontainer').has('p').length !== 0){
       alert('Game Over, Draw!');
       $('.cell').empty();
-      console.log($('.tictactoecontainer').has('p'))
     } else {}
   }
 
