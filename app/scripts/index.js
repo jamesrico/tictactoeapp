@@ -102,12 +102,18 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
   function editGamePlayers(gamecontainer){
   var gameowner = $(gamecontainer).find('li').text(),
       numberPlayers = $(gamecontainer).find('p').text();
+      console.log($(gamecontainer).find('li'));
   if (numberPlayers === '1/2'){
     $(gamecontainer).find('p').text('2/2');
-    var query = fbgames.orderByChild("user1").equalTo(gameowner).limitToFirst(1);
-    console.log(query);
-    var refQuery = query.ref();
-    console.log(refQuery);
+    fbgames.once('value', function(n){
+      var games = n.val();
+      _.forEach(games, function(n, key){
+        console.log(n,key);
+        if(n.user1===gameowner){
+          console.log(key);
+        } else {console.log(gameowner)}
+      });
+    });
   }
   else {}
   }
