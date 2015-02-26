@@ -68,12 +68,12 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
 
   //if authenticated, go to app page
 
-  //fb.child('users').once('value', function(snap){
-    //if (fb.getAuth()) {
-      //$('.login').toggleClass('hidden');
-      //$('.gameSelect').toggleClass('hidden');
-    //} else {}
-  //});
+  fb.child('users').once('value', function(snap){
+    if (fb.getAuth()) {
+      $('.login').toggleClass('hidden');
+      $('.gameSelect').toggleClass('hidden');
+    } else {}
+  });
 
 ///////////////////////////////////////////
 //////// Room List Page Functions /////////
@@ -81,7 +81,7 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
 
   /////push game data to fb
   function createGame(user){
-    var newGameData = {'user1': user, 'user2': '', 'gameboard': [[0,0,0],[0,0,0],[0,0,0]], 'gameover': false};
+    var newGameData = {'user1': user, 'user2': '', 'gameboard': [0, 0, 0, 0, 0, 0, 0, 0, 0], 'gameover': false};
     fbgames.push(newGameData);
     return newGameData;
   }
@@ -110,8 +110,14 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     var userRaw = fb.getAuth().password.email,
         userIndex = userRaw.indexOf('@'),
         userShort = userRaw.substr(0,userIndex);
-    createGame(userShort);
-  });
+    if ($('.gameListContainer').find('.'+userShort+'game').length === 0 ){
+      createGame(userShort);
+      $('.gameSelect').toggleClass('hidden');
+      $('.app').toggleClass('hidden');
+
+    } else {alert("Game Already Exists");}
+    console.log($('.gameListContainer').find('.'+userShort+'game').length);
+})
 
   function editGamePlayers(gamecontainer){
     var gameowner = $(gamecontainer).find('span').text(),
@@ -131,8 +137,10 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
               userShort = userRaw.substr(0,userIndex);
             var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
             fbFindGame.child('user2').set(userShort);
+            fbFindGame.child('gameboard').set(createGameboardData());
           } else { alert('Invalid Game!')}
         });
+      $(gamecontainer).find('p').text('2/2');
       });
       $(gamecontainer).find('p').text('2/2')
     } else {}
