@@ -13,4 +13,9 @@
   border: $cellBorderWidth black solid;
   display: inline-block;
   margin: 0;
+
+  p {
+    margin: 0;
+    position: absolute;
+  }
 }

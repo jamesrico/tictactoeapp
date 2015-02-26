@@ -19,7 +19,7 @@ html(lang='en-US')
           input.userPasswordInput(type='password', name='password', placeholder='Password' required='required')
         button.register Register
         input.loginButton(type='submit', name='login', value='Login')
-    .gameSelect
+    .gameSelect.hidden
       .createGameContainer
         button.addgamebutton.
           Create Game
@@ -27,17 +27,17 @@ html(lang='en-US')
         h4 Choose A Game From List Below
         ul.gameListContainer
 
-    .app.hidden
+    .app
       .tictactoecontainer
-        .topleftspace.cell
-        .topmidspace.cell
-        .toprightspace.cell
-        .midleftspace.cell
-        .midmidspace.cell
-        .midrightspace.cell
-        .botleftspace.cell
-        .botmidspace.cell
-        .botmidright.cell
+        .cell(data-cell='topleftcell')
+        .cell(data-cell='topmidcell')
+        .cell(data-cell='toprightcell')
+        .cell(data-cell='midleftcell')
+        .cell(data-cell='midmidcell')
+        .cell(data-cell='midrightcell')
+        .cell(data-cell='botleftcell')
+        .cell(data-cell='botmidcell')
+        .cell(data-cell='botrightcell')
 
       // build:js js/vendor.min.js
       // bower:js

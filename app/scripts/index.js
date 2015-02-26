@@ -116,8 +116,11 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     });
   }
   else {}
-  }
-    
+    // fbgames.orderByPriority().on("child_added", function(snapshot) {
+    // console.log(snapshot.key());
+  };
+
+
   $('.gameListContainer').on('click', 'li', function (event){
     editGamePlayers(event.target);
     console.log(event.target);
@@ -141,4 +144,55 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
 ////////////////////////////////////////////////
 //////////// App Functions ////////////////////
 ////////////////////////////////////////////////
+//////create moves and if else statments
+ function appendSymbol(div, move){
+  var $symbol = $('<p>'+move+'</p>');
+  $(div).append($symbol);
+ }
+
+ var lastsymbol = 'X';
+
+  $('.tictactoecontainer').on('click', 'div.cell', function (event){
+    if (($(event.target).find('p')).length === 1){
+      console.log($(event.target).find('p'));
+    } 
+          else {
+
+            appendSymbol(event.target, lastsymbol)
+          
+             if (lastsymbol === 'X'){
+                lastsymbol = '0'
+                  }
+             else { 
+              lastsymbol = 'X'
+              }
+
+          } 
+  })
+
+  function createGameboardData(){
+    var gameBoard = [];
+    var containerchildren = $('.tictactoecontainer').children();
+    var container = $('.tictactoecontainer');
+
+    _.forEach(containerchildren, function(n){
+        if($($(n).find('p')).length === 0) {
+          gameBoard.push(0)
+        } else if($(n).find('p').text() === 'X') {
+          gameBoard.push(1)
+        } else { gameBoard.push(2)}
+    });
+    _.forEach(containerchildren, function(m){
+       var cellclass = $(m).attr('data-cell');
+       console.log(cellclass);
+       $(container).index('[data-cell = '+cellclass+']');
+       console.log($(container).index('[data-cell = '+cellclass+']'));
+    });
+    return gameBoard;
+  }
+
+  var gameBoard = createGameboardData();
+
+  
+
 
