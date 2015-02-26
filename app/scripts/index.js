@@ -29,7 +29,7 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
                 password: pass
               },
                 function(err, auth){
-                    pushLoginInfo(user);
+                    fbusers.push(user);
                     location.reload(true);
               }
             );
@@ -54,7 +54,7 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
       if (error) {
         console.log("Login Failed!", error);
       } else {
-        pushLoginInfo(user);
+        fbusers.push(user);
         location.reload(true);
         console.log("Authenticated successfully with payload:", authData);
       }
@@ -75,9 +75,6 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     //} else {}
   //});
 
-  function pushLoginInfo(user){
-    fbusers.push(user);
-  }
   ////////creat room functionality
   //
   /////push game data to fb
@@ -89,29 +86,55 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
   ///////append data to list
   //
   //grab the entire list of games
-  function getExistingGames(){
+  function appendExistingGames(){
     fbgames.on('child_added', function (snap) {
       var game = snap.val();
       addGameToList(game);
-
     });
   }
 
-  getExistingGames();
+  appendExistingGames();
+
+  function addGameToList(game){
+    function num() {
+        if(game.user2 !== ''){
+          console.log(game.user2)
+          return 2
+        } else {return 1}
+      }
+      var $li = $('<li class="'+game.user1+'game"><span class="'+game.user1+'user">'+game.user1+'</span><p class="'+game.user1+'numberofplayers">'+num()+'/2</li>');
+      $('.gameListContainer').append($li);
+    }
+    $('.addgamebutton').on('click', function(event){
+      event.preventDefault();
+      var userRaw = fb.getAuth().password.email,
+          userIndex = userRaw.indexOf('@'),
+          userShort = userRaw.substr(0,userIndex);
+
+      var gameData = createGame(userShort);
+      addGameToList(gameData);
+    });
 
   function editGamePlayers(gamecontainer){
-  var gameowner = $(gamecontainer).find('li').text(),
+  var gameowner = $(gamecontainer).find('span').text(),
       numberPlayers = $(gamecontainer).find('p').text();
-      console.log($(gamecontainer).find('li'));
-  if (numberPlayers === '1/2'){
+  var userRaw = fb.getAuth().password.email,
+          userIndex = userRaw.indexOf('@'),
+          userShort = userRaw.substr(0,userIndex);
+  if (numberPlayers === '1/2' && userShort !== gameowner){
     $(gamecontainer).find('p').text('2/2');
     fbgames.once('value', function(n){
       var games = n.val();
       _.forEach(games, function(n, key){
-        console.log(n,key);
+        console.log(gameowner);
+        console.log(n.user1);
         if(n.user1===gameowner){
-          console.log(key);
-        } else {console.log(gameowner)}
+          var userRaw = fb.getAuth().password.email,
+            userIndex = userRaw.indexOf('@'),
+            userShort = userRaw.substr(0,userIndex);
+          var fbFindGame = new Firebase('https://tictactoenssc8.firebaseio.com/games/'+key+'/')
+          fbFindGame.child('user2').set(userShort);
+        } else { alert('Invalid Game!')}
       });
     });
   }
@@ -122,25 +145,10 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
 
 
   $('.gameListContainer').on('click', 'li', function (event){
-    editGamePlayers(event.target);
-    console.log(event.target);
+    editGamePlayers($(event.target).closest('li'));
   })
 
-  function addGameToList(game){
-    var $li = $('<li class="'+game.user1+'game">'+game.user1+'<p class="'+game.user1+'numberofplayers">1/2</li>');
-    $('.gameListContainer').append($li);
 
-  }
- $('.addgamebutton').on('click', function(event){
-    event.preventDefault();
-    var userRaw = fb.getAuth().password.email,
-        userIndex = userRaw.indexOf('@'),
-        userShort = userRaw.substr(0,userIndex);
-
-    createGame(userShort);
-    var gameData = createGame(userShort);
-    addGameToList(gameData);
- })
 ////////////////////////////////////////////////
 //////////// App Functions ////////////////////
 ////////////////////////////////////////////////
@@ -154,45 +162,65 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
 
   $('.tictactoecontainer').on('click', 'div.cell', function (event){
     if (($(event.target).find('p')).length === 1){
-      console.log($(event.target).find('p'));
-    } 
-          else {
+    }
+    else {
+      appendSymbol(event.target, lastsymbol)
+      var gameBoard = createGameboardData();
+      var $containerchildren = $('.tictactoecontainer').children();
+      _.forEach($containerchildren, function(m){
+        var index = $containerchildren.index(m);
+        console.log(index);
+        gameOver(gameBoard, index);
+      });
 
-            appendSymbol(event.target, lastsymbol)
-          
-             if (lastsymbol === 'X'){
-                lastsymbol = '0'
-                  }
-             else { 
-              lastsymbol = 'X'
-              }
-
-          } 
+      if (lastsymbol === 'X'){
+        lastsymbol = '0'
+      }
+      else {
+        lastsymbol = 'X'
+      }
+    }
   })
 
   function createGameboardData(){
     var gameBoard = [];
-    var containerchildren = $('.tictactoecontainer').children();
-    var container = $('.tictactoecontainer');
+    var $containerchildren = $('.tictactoecontainer').children();
+    var $container = $('.tictactoecontainer');
 
-    _.forEach(containerchildren, function(n){
+    _.forEach($containerchildren, function(n){
         if($($(n).find('p')).length === 0) {
           gameBoard.push(0)
         } else if($(n).find('p').text() === 'X') {
           gameBoard.push(1)
         } else { gameBoard.push(2)}
     });
-    _.forEach(containerchildren, function(m){
-       var cellclass = $(m).attr('data-cell');
-       console.log(cellclass);
-       $(container).index('[data-cell = '+cellclass+']');
-       console.log($(container).index('[data-cell = '+cellclass+']'));
-    });
+
     return gameBoard;
   }
 
-  var gameBoard = createGameboardData();
+  function gameOver(board, i){
+    if (board[i] !== 0 && board[i] === board[i + 1] && board[i] === board[i+2] && (i === 0 || i === 3 || i === 6)){
+        var symbol = lastsymbol;
+        alert('GameOver, "'+symbol+'" Wins!');
+        $('.cell').empty();
+    } else if
+      (board[i] !== 0 && board[i] === board[i + 3] && board[i] === board[i+6] && (i === 0 || i === 1 || i === 2)){
+        var symbol = lastsymbol;
+        alert('GameOver, "'+symbol+'" Wins!');
+        $('.cell').empty();
+    }  else if
+      (board[i] !== 0 && board[i] === board[i + 4] && board[i] === board[i+8] && i === 0){
+        var symbol = lastsymbol;
+        alert('GameOver, "'+symbol+'" Wins!');
+        $('.cell').empty();
+    }   else if
+      (board[i] !== 0 && board[i] === board[i + 2] && board[i] === board[i+4] && i === 2){
+        var symbol = lastsymbol;
+        alert('GameOver, "'+symbol+'" Wins!');
+        $('.cell').empty();
+    } else { }
+  }
 
-  
+
 
 
