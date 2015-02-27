@@ -1,6 +1,6 @@
-$tictactoecontainerWidth: 500px;
-$tictactoecontainerHeight: 500px;
-$cellBorderWidth: 1px;
-$cellWidth: ($tictactoecontainerWidth/3) - ($cellBorderWidth*6);
-$cellHeight: ($tictactoecontainerHeight/3) - ($cellBorderWidth*6);
+$tictactoecontainerWidth: 450px;
+$tictactoecontainerHeight: 450px;
+$cellBorderWidth: 5px;
+$cellWidth: ($tictactoecontainerWidth/3) - ($cellBorderWidth*1.2);
+$cellHeight: ($tictactoecontainerHeight/3) - ($cellBorderWidth*1.2);
 

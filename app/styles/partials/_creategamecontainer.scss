@@ -22,6 +22,19 @@ h4 {
   bottom-border: 7px black solid;
   }
 
+li {
+  border: 3px #dfecfb groove;
+}
+
+li:nth-child(even){
+  background-color: #dfe8b3;
+} 
+
+li:nth-child(odd){
+  background-color: #94cb62;
+
+}
+
 .gameListContainer {
   margin: 0;
   list-style: none;
