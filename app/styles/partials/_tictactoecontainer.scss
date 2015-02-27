@@ -1,20 +1,50 @@
 
+h1 {
+  margin: 40px auto;
+  text-align: center;
+  font-color: #8dcf60;
+}
+
+.playerxcontainer{
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin: 150px 50px;
+  border: 3px black solid;
+
+      p {
+    display: inline-block;
+    font-weight: 100px;
+    padding: 7px 50px;
+    font-size: 10px;
+    margin: 0;
+    position: absolute;
+      }
+}
+
+.playerocontainer{
+  width: 100px;
+  height: 100px;
+  float: right;
+  margin: 150px 50px;
+  border: 3px black solid;
+    p {
+    display: inline-block;
+    font-weight: 100px;
+    padding: 7px 50px;
+    font-size: 10px;
+    margin: 0;
+    position: absolute;
+      }
+}
 
 .tictactoecontainer {
   width: $tictactoecontainerWidth;
   height: $tictactoecontainerHeight;
   margin: 40px auto;
-  border: 3px black solid;
-}
-
-.cell {
-  width: $cellWidth;
-  height: $cellHeight;
-  border: $cellBorderWidth black solid;
-  display: inline-block;
-  margin: 0;
-
-  p {
+  border: 3px #dbeffe groove;
+  background-image: url('http://server1.tpbpn.com/images/i758.photobucket.com/albums/xx221/MrJouhan/Tiilisein.jpg');
+    p {
     display: inline-block;
     font-weight: 100px;
     padding: 7px 50px;
@@ -23,3 +53,23 @@
     position: absolute;
       }
 }
+
+.cell {
+  width: $cellWidth;
+  height: $cellHeight;
+  border: $cellBorderWidth #dbeffe groove;
+  display: inline-block;
+  margin: 0;
+
+  p {
+    display: inline-block;
+    font-weight: 100px;
+    text-align: center;
+    font-size: 100px;
+    margin: auto;
+    position: absolute;
+      }
+}
+
+
+
