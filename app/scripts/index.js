@@ -66,7 +66,7 @@ var fb = new Firebase('https://tictactoenssc8.firebaseio.com/'),
     location.reload(true);
   });
 
-  //if authenticated, go to app page
+  //if authenticated, go to game select page
 
   fb.child('users').once('value', function(snap){
     if (fb.getAuth()) {
