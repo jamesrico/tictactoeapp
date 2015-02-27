@@ -7,7 +7,8 @@ html(lang='en-US')
     title TicTacToe
     link(rel='stylesheet', href='css/main.css')
   body
-    .login.hidden
+      <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    .login
       h1 Please Login Or Register
       form
         .username
@@ -34,16 +35,17 @@ html(lang='en-US')
       .playerocontainer
         .playerocell
         p Player O
+
       .tictactoecontainer
-        .cell#topleftcell(data-cell='topleftcell')
-        .cell#topmidcell(data-cell='topmidcell')
-        .cell#toprightcell(data-cell='toprightcell')
-        .cell#midleftcell(data-cell='midleftcell')
-        .cell#midmidcell(data-cell='midmidcell')
-        .cell#midrightcell(data-cell='midrightcell')
-        .cell#botleftcell(data-cell='botleftcell')
-        .cell#botmidcell(data-cell='botmidcell')
-        .cell#botrightcell(data-cell='botrightcell')
+        .cell(data-cell='topleftcell')
+        .cell(data-cell='topmidcell')
+        .cell(data-cell='toprightcell')
+        .cell(data-cell='midleftcell')
+        .cell(data-cell='midmidcell')
+        .cell(data-cell='midrightcell')
+        .cell(data-cell='botleftcell')
+        .cell(data-cell='botmidcell')
+        .cell(data-cell='botrightcell')
 
       // build:js js/vendor.min.js
       // bower:js
