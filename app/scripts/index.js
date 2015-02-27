@@ -138,7 +138,7 @@ if(fb.getAuth()){
         userIndex = userRaw.indexOf('@'),
         userShort = userRaw.substr(0,userIndex);
     //check to see if user already has a game
-    if ($('.gameListContainer').find('.'+userShort+'game').length === 0 && $('.gameListContainer').find('.'+userShort+'numberofplayers').text() === '1/2'){
+    if ($('.gameListContainer').find('.'+userShort+'game').length === 0){
       //if they don't, create a game and take them to a blank game
       createGame(userShort);
       $('.gameSelect').toggleClass('hidden');
@@ -188,12 +188,12 @@ if(fb.getAuth()){
     $(div).append($symbol);
   }
 
-  //update game if child is added
+  //update game function
   function updateGameboard (){
     var fbspecificgameUrl = 'https://tictactoenssc8.firebaseio.com/games/'+findGameId()+'/';
     var fbspecificgame = new Firebase(fbspecificgameUrl);
         fbspecificgame.on('child_added', function (snap) {
-          var gameboard = snap.val().gameboard;
+          var gameboard = snap.val();
           appendGameboard(gameboard);
         });
   }
