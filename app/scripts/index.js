@@ -234,8 +234,10 @@ if(fb.getAuth()){
         //get last symbol
         var symbol;
         fbFindGame.once('value', function(res){
-          symbol = res.symbol;
-          console.log(res.symbol);
+          var refsym = res.child('symbol');
+          var path = refsym.val();
+          
+          console.log(path);
         });
       appendSymbol(event.target, lastsymbol)
       //click variables
