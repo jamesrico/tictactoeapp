@@ -24,22 +24,28 @@ html(lang='en-US')
         button.addgamebutton.
           Create Game
       .chooseGameContainer
-        h4 Choose A Game From List Below
+        h4 Click A Game From To Join
         ul.gameListContainer
 
     .app.hidden
-      .titlecontainer
-        p.title Tic-Tac-Toe
+      h1 Tic-Tac-Toe
+      .playerxcontainer
+        .playerxcell
+        p Player X
+      .playerocontainer
+        .playerocell
+        p Player O
+
       .tictactoecontainer
-        .cell#topleftcell(data-cell='topleftcell')
-        .cell#topmidcell(data-cell='topmidcell')
-        .cell#toprightcell(data-cell='toprightcell')
-        .cell#midleftcell(data-cell='midleftcell')
-        .cell#midmidcell(data-cell='midmidcell')
-        .cell#midrightcell(data-cell='midrightcell')
-        .cell#botleftcell(data-cell='botleftcell')
-        .cell#botmidcell(data-cell='botmidcell')
-        .cell#botrightcell(data-cell='botrightcell')
+        .cell(data-cell='topleftcell')
+        .cell(data-cell='topmidcell')
+        .cell(data-cell='toprightcell')
+        .cell(data-cell='midleftcell')
+        .cell(data-cell='midmidcell')
+        .cell(data-cell='midrightcell')
+        .cell(data-cell='botleftcell')
+        .cell(data-cell='botmidcell')
+        .cell(data-cell='botrightcell')
 
       // build:js js/vendor.min.js
       // bower:js
